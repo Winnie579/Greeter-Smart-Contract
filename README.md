@@ -1,66 +1,106 @@
-## Foundry
+# 👋🏻 Greeter Smart Contract (Base Sepolia)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A minimal Greeter smart contract built with [Foundry](https://book.getfoundry.sh/), deployed to the [Base Sepolia](https://sepolia.basescan.org/) testnet, and verified using Foundry’s native tooling. This guide walks through setup, compilation, deployment, and verification.
 
-Foundry consists of:
+---
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## 🛠️ Setup Instructions
 
-## Documentation
+### 1. Create Project Directory
 
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```
+mkdir Greeter-Smart-Contract
+cd Greeter-Smart-Contract
 ```
 
-### Test
 
-```shell
-$ forge test
+
+
+### 2. Install Foundry
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+```
+### 3. Initialize the Project
+
+```
+forge init
 ```
 
-### Format
 
-```shell
-$ forge fmt
+### 4. Environment Configuration
+
+Create a .env file to securely store sensitive values:
+```
+PRIVATE_KEY=your-wallet-private-key
+ETHERSCAN_API_KEY=your-basescan-api-key
+RPC_URL=<https://sepolia.base.org>
 ```
 
-### Gas Snapshots
+Then load it into your shell:
+`source .env`
 
-```shell
-$ forge snapshot
+This makes the variables available to forge create and forge verify-contract.
+
+
+### 5. Contract Code 
+
+Replace src/Counter.sol with src/Greeting.sol and start writing your code functions and arguments
+
+
+### 6. Build Your Contract
+
+```
+forge build
 ```
 
-### Anvil
+This compiles the contract and generates ABI + bytecode in out/.
 
-```shell
-$ anvil
+
+### 7.🚀 Deploy to Base Sepolia
+
+Use forge create to deploy manually:
+
+```bash
+forge create src/Greeter.sol:Greeter \
+  --rpc-url $BASESCAN_RPC_URL \
+  --broadcast \
+  --private-key $PRIVATE_KEY \
+  --constructor-args "Hello, Base Builders!" \
 ```
+Note: --broadcast sends the transaction to the network using the provided RPC and private key.
 
-### Deploy
+### 8. ✅ Verify on Basescan
+Once deployed, verify the contract:
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```bash
+forge verify-contract \
+  --chain base-sepolia \
+  0xYourContractAddress \
+  src/Greeting.sol:Greeter \
+  --verifier etherscan \
+  --verifier-url https://api-sepolia.basescan.org/api \
+  --etherscan-api-key $ETHERSCAN_API_KEY \
+  --constructor-args $(cast abi-encode "constructor(string)" "Hello, Base builders!")
+
 ```
+Make sure:
 
-### Cast
+* The contract address is correct
 
-```shell
-$ cast <subcommand>
-```
+* The contract name matches exactly
 
-### Help
+* Your .env is sourced before running this
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+
+
+### Explorer Link
+
+Contract Address: 0xYourContractAddress
+
+Verified on: [Basescan](https://sepolia.basescan.org/)
+
+### 📝 License
+
+MIT © 2025 Winnie579
