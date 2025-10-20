@@ -43,6 +43,10 @@ Then load it into your shell:
 
 This makes the variables available to forge create and forge verify-contract.
 
+Always run it when:
+Opening a new terminal
+Modifying/adding variables to the `.env` file
+
 
 ### 5. Contract Code 
 
@@ -63,7 +67,7 @@ This compiles the contract and generates ABI + bytecode in out/.
 Use forge create to deploy manually:
 
 ```bash
-forge create src/Greeter.sol:Greeter \
+forge create src/Greeting.sol:Greeter \
   --rpc-url $BASESCAN_RPC_URL \
   --broadcast \
   --private-key $PRIVATE_KEY \
@@ -95,12 +99,12 @@ Make sure:
 
 
 
-### Explorer Link
+### View on Basescan
 
 Contract Address: 0xYourContractAddress
 
+<https://sepolia.basescan.org/address/YourContractAddress>
+
 Verified on: [Basescan](https://sepolia.basescan.org/)
 
-### 📝 License
 
-MIT © 2025 Winnie579
